@@ -1,0 +1,14 @@
+--- bcm5820-1.81/snmp/get5820stats.log	Fri Feb 22 17:33:06 2002
++++ bcm5820-1.81/snmp/get5820stats	Tue Mar 12 18:39:19 2002
+@@ -9,8 +9,10 @@
+    exit 0
+ fi
+ 
++# Debug code?
++LOGFILE=`mktemp /tmp/passtest.log.XXXXXX`
+ if [ "$1" = "-s" ]; then
+-  echo $* >> /tmp/snmpstats.log
++  echo $* >> $LOGFILE
+   exit 0
+ fi
+ 

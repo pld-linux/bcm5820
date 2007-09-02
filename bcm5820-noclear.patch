@@ -1,0 +1,64 @@
+Add a -n option which inhibits screen clearing when we're not in loop mode.
+--- ./stats/stats.c	2002-11-04 16:15:45.000000000 -0500
++++ ./stats/stats.c	2002-11-04 16:15:38.000000000 -0500
+@@ -72,7 +72,8 @@
+   key_mode     = 0x0002,
+   ssl_mode     = 0x0004,
+   loop_mode    = 0x0100,
+-  verbose_mode = 0x0200
++  verbose_mode = 0x0200,
++  clear_mode   = 0x8000
+ };
+ 
+ 
+@@ -194,7 +195,8 @@
+   
+   int i;
+   
+-  system("clear");
++  if(control_word & (clear_mode | loop_mode))
++    system("clear");
+   stats_printHeaderSimple(control_word);
+   
+   if(current_device == num_devices)
+@@ -220,7 +222,8 @@
+   
+   int i;
+   
+-  system("clear");
++  if(control_word & (clear_mode | loop_mode))
++    system("clear");
+   stats_printHeaderVerbose(control_word);
+   
+   if(current_device == num_devices)
+@@ -357,6 +360,7 @@
+   printf("\t-v\t\tVerbose mode. Show more detailed statistics information\n\t\t\tincluding rate information.\n\n");
+   printf("\t-s [num]\tShow statistics for specified device only. Default is\n\t\t\tall devices.\n\n");
+   printf("\t-c\t\tShow statistics for crypto operations. Default is key\n\t\t\toperations only.\n\n");
++  printf("\t-n\t\tAvoid clearing the screen when not in loop mode.\n\n");
+   printf("\t-h\t\tDisplay usage information.\n\n");
+ }
+ 
+@@ -384,10 +388,11 @@
+   interval   = 3;
+   control_word  = 0;
+   control_word |= key_mode;
++  control_word |= clear_mode;
+   
+   bzero(prev_stats, sizeof(ubsec_stats_t));
+ 
+-  while ((c = getopt(argc, argv, "LlVvS:s:I:i:CcDdKkHh?")) != -1) {
++  while ((c = getopt(argc, argv, "LlVvS:s:I:i:CcDdKknHh?")) != -1) {
+     switch (c) {
+     case 'L':
+     case 'l':
+@@ -420,6 +425,9 @@
+       control_word &= (control_word & ~crypto_mode);
+       control_word |= key_mode;
+       break;
++    case 'n':
++      control_word &= (control_word & ~clear_mode);
++      break;
+     case 'H':
+     case 'h':
+     case '?':

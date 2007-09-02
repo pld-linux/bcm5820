@@ -1,0 +1,26 @@
+--- bcm5820-1.81/ubslib/Makefile.Linux.jj	Fri Feb 22 17:33:06 2002
++++ bcm5820-1.81/ubslib/Makefile.Linux	Fri Aug 23 08:33:46 2002
+@@ -46,13 +46,9 @@ LIBNAME=
+ RM = /bin/rm
+ RMFLAGS = -f
+ 
+-ifeq ($(shell `echo uname -a` | grep -i " ia64 "),$(shell `echo uname -a`))
+-  LINUXIA64= -lgcc_s
+-endif
+-
+ # to build shared library
+ SHRCFLAGS = -O2 -ansi -pedantic -fPIC -c $(INCLUDES) -w $(DBGFLAGS)
+-SHRLDFLAGS = -shared $(LINUXIA64) 
++SHRLDFLAGS = -shared -Wl,-soname=$(SHRBINNAME).0
+ 
+ SHRCFLAGS += $(BCM_OEM_DEFINES) -DUSER_APPLICATION
+ 
+@@ -96,7 +92,7 @@ CNPKCS11OBJ = \
+ endif
+ 
+ $(SHRBINNAME): $(SHROBJSUBSEC) $(LIBNAME) $(CNPKCS11OBJ)
+-	$(ECHO) $(LD) -o $(SHRBINNAME) $(CNPKCS11OBJ)  $(SHRLDFLAGS) $(SHROBJSUBSEC) \
++	$(ECHO) $(CC) -o $(SHRBINNAME) $(CNPKCS11OBJ)  $(SHRLDFLAGS) $(SHROBJSUBSEC) \
+ 		$(LIBNAME)
+ 
+ clean:
