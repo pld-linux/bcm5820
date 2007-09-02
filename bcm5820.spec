@@ -87,7 +87,7 @@ install ubslib/libubsec.a $RPM_BUILD_ROOT%{_libdir}
 
 install cndiag/b58diag stats/b58stats $RPM_BUILD_ROOT%{_sbindir}
 
-install SRL/ubsec.h Linux/ubsio.h ubslib/ubsec_lib.h $RPM_BUILD_ROOT%{_includedir}
+install SRL/{ubsec,ubssys}.h Linux/ubsio.h ubslib/ubsec_lib.h $RPM_BUILD_ROOT%{_includedir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -111,6 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/ubsec.h
 %{_includedir}/ubsec_lib.h
 %{_includedir}/ubsio.h
+%{_includedir}/ubssys.h
 
 %files static
 %defattr(644,root,root,755)
