@@ -2,7 +2,7 @@ Summary:	Broadcom BCM5820 E-Commerce Processor utilities
 Summary(pl.UTF-8):	Narzędzia dla akceleratora kryptograficznego Broadcom BCM5820
 Name:		bcm5820
 Version:	1.81
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Source0:	%{name}-%{version}.tgz
